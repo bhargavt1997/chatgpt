@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attire Planner</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Smart wardrobe planner</p>
+        <h1>Build outfits from the clothes you already own.</h1>
+        <p class="hero-copy">
+          Upload dresses, shoes, bags, and accessories, describe the kind of day you want,
+          and get a tailored outfit suggestion from your own wardrobe.
+        </p>
+      </div>
+      <div class="hero-card">
+        <h2>How it works</h2>
+        <ol>
+          <li>Add wardrobe pieces with photos and style details.</li>
+          <li>Tell the app about your day, mood, and weather.</li>
+          <li>Get a full outfit recommendation with matching pieces.</li>
+        </ol>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Step 1</p>
+            <h2>Add to your wardrobe</h2>
+          </div>
+          <button id="seed-demo" class="secondary-btn" type="button">Load demo closet</button>
+        </div>
+
+        <form id="item-form" class="item-form">
+          <label>
+            Item name
+            <input type="text" name="name" placeholder="Emerald satin dress" required />
+          </label>
+
+          <label>
+            Category
+            <select name="category" required>
+              <option value="dress">Dress</option>
+              <option value="top">Top</option>
+              <option value="bottom">Bottom</option>
+              <option value="shoes">Shoes</option>
+              <option value="accessory">Accessory</option>
+              <option value="outerwear">Outerwear</option>
+              <option value="bag">Bag</option>
+            </select>
+          </label>
+
+          <label>
+            Color family
+            <select name="color" required>
+              <option value="neutral">Neutral</option>
+              <option value="black">Black</option>
+              <option value="white">White</option>
+              <option value="red">Red</option>
+              <option value="pink">Pink</option>
+              <option value="orange">Orange</option>
+              <option value="yellow">Yellow</option>
+              <option value="green">Green</option>
+              <option value="blue">Blue</option>
+              <option value="purple">Purple</option>
+              <option value="metallic">Metallic</option>
+            </select>
+          </label>
+
+          <label>
+            Style vibe
+            <select name="style" required>
+              <option value="classic">Classic</option>
+              <option value="casual">Casual</option>
+              <option value="romantic">Romantic</option>
+              <option value="edgy">Edgy</option>
+              <option value="sporty">Sporty</option>
+              <option value="minimal">Minimal</option>
+              <option value="glam">Glam</option>
+            </select>
+          </label>
+
+          <label>
+            Formality
+            <input type="range" name="formality" min="1" max="5" value="3" />
+            <span class="hint">1 = relaxed, 5 = polished</span>
+          </label>
+
+          <label>
+            Warmth
+            <input type="range" name="warmth" min="1" max="5" value="3" />
+            <span class="hint">1 = breezy, 5 = cozy</span>
+          </label>
+
+          <label class="file-input">
+            Photo
+            <input type="file" name="image" accept="image/*" />
+          </label>
+
+          <label class="full-width">
+            Notes
+            <textarea name="notes" rows="3" placeholder="Perfect for dinner dates, gold jewelry, spring evenings..."></textarea>
+          </label>
+
+          <button class="primary-btn" type="submit">Add item</button>
+        </form>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Step 2</p>
+            <h2>Your wardrobe</h2>
+          </div>
+          <span id="item-count" class="badge">0 items</span>
+        </div>
+        <div id="wardrobe-grid" class="wardrobe-grid empty-state">
+          <p>Your wardrobe is empty. Add pieces or load the demo closet to get started.</p>
+        </div>
+      </section>
+
+      <section class="panel planner-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Step 3</p>
+            <h2>Plan your day</h2>
+          </div>
+        </div>
+
+        <form id="planner-form" class="planner-form">
+          <label>
+            Occasion
+            <select name="occasion">
+              <option value="work">Work</option>
+              <option value="brunch">Brunch</option>
+              <option value="date">Date night</option>
+              <option value="party">Party</option>
+              <option value="travel">Travel</option>
+              <option value="errands">Errands</option>
+            </select>
+          </label>
+
+          <label>
+            Mood
+            <select name="mood">
+              <option value="confident">Confident</option>
+              <option value="playful">Playful</option>
+              <option value="relaxed">Relaxed</option>
+              <option value="bold">Bold</option>
+              <option value="romantic">Romantic</option>
+              <option value="focused">Focused</option>
+            </select>
+          </label>
+
+          <label>
+            Weather
+            <select name="weather">
+              <option value="sunny">Sunny</option>
+              <option value="mild">Mild</option>
+              <option value="rainy">Rainy</option>
+              <option value="cold">Cold</option>
+              <option value="hot">Hot</option>
+            </select>
+          </label>
+
+          <label>
+            Temperature feel
+            <input type="range" name="tempPreference" min="1" max="5" value="3" />
+            <span class="hint">1 = cooler outfit, 5 = warmer outfit</span>
+          </label>
+
+          <label class="full-width">
+            Extra context
+            <textarea name="details" rows="3" placeholder="Example: I want to look polished but still comfortable because I will walk a lot."></textarea>
+          </label>
+
+          <button class="primary-btn" type="submit">Recommend my outfit</button>
+        </form>
+
+        <div id="recommendation" class="recommendation empty-state">
+          <p>Add at least one clothing piece and one pair of shoes to get a recommendation.</p>
+        </div>
+      </section>
+    </main>
+
+    <template id="wardrobe-item-template">
+      <article class="item-card">
+        <div class="item-image"></div>
+        <div class="item-body">
+          <div class="item-topline">
+            <h3></h3>
+            <button class="icon-btn" type="button" aria-label="Remove item">×</button>
+          </div>
+          <p class="item-meta"></p>
+          <p class="item-notes"></p>
+        </div>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
