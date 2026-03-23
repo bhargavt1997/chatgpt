@@ -3,205 +3,530 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Attire Planner</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>Bhargav Tsapparapu — Technical Product Owner</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --navy-950: #091426;
+        --navy-900: #10213b;
+        --navy-800: #173258;
+        --gold-500: #c9a84c;
+        --gold-400: #e2c56d;
+        --surface: #f5f7fb;
+        --text: #1a2433;
+        --muted: #5a6b84;
+        --line: #d9e0eb;
+        --white: #ffffff;
+        --success: #1f9d55;
+        --shadow: 0 24px 70px rgba(5, 14, 29, 0.18);
+      }
+
+      * { box-sizing: border-box; }
+      html { background: #e9edf5; }
+      body {
+        margin: 0;
+        padding: 32px 18px;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        color: var(--text);
+        background: linear-gradient(180deg, #eef2f8 0%, #e7edf7 100%);
+      }
+
+      .page {
+        width: min(960px, 100%);
+        margin: 0 auto;
+        background: var(--white);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 2.1fr) minmax(220px, 0.9fr);
+        background: linear-gradient(135deg, var(--navy-950), var(--navy-900));
+        color: var(--white);
+      }
+
+      .hero-main, .hero-side { padding: 42px; }
+      .hero-main { border-right: 1px solid rgba(255,255,255,0.12); }
+      .eyebrow {
+        margin: 0 0 12px;
+        color: var(--gold-400);
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(2.4rem, 5vw, 3.7rem);
+        line-height: 0.95;
+      }
+      .accent { color: var(--gold-400); }
+      .summary-lead {
+        margin: 18px 0 28px;
+        max-width: 60ch;
+        line-height: 1.7;
+        color: rgba(255,255,255,0.82);
+      }
+      .contact-list, .stat-list, .tag-list, .timeline, .bullet-list, .side-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .contact-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px 18px;
+      }
+      .contact-list li {
+        padding: 10px 12px;
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 12px;
+        background: rgba(255,255,255,0.04);
+        font-size: 0.95rem;
+      }
+      .hero-side {
+        display: grid;
+        align-content: start;
+        gap: 22px;
+      }
+      .metric {
+        padding: 18px;
+        border-radius: 16px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.12);
+      }
+      .metric strong {
+        display: block;
+        font-size: 3rem;
+        line-height: 1;
+        color: var(--gold-400);
+      }
+      .metric span {
+        display: block;
+        margin-top: 8px;
+        color: rgba(255,255,255,0.72);
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-size: 0.72rem;
+        font-weight: 700;
+      }
+      .tag-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .tag-list li {
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: rgba(201,168,76,0.12);
+        border: 1px solid rgba(201,168,76,0.28);
+        color: var(--gold-400);
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+      .availability {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(31,157,85,0.12);
+        color: #b8f5ce;
+        border: 1px solid rgba(31,157,85,0.25);
+        font-weight: 600;
+      }
+      .availability::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #3ddc84;
+      }
+
+      .content {
+        display: grid;
+        grid-template-columns: minmax(0, 2.1fr) minmax(250px, 0.9fr);
+      }
+      main, aside { padding: 38px 42px 42px; }
+      main { background: var(--white); border-right: 1px solid var(--line); }
+      aside { background: var(--surface); }
+
+      section + section { margin-top: 34px; }
+      .section-heading {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+      .section-heading h2, .section-heading h3 {
+        margin: 0;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--navy-900);
+      }
+      .section-heading::after {
+        content: "";
+        height: 1px;
+        flex: 1;
+        background: var(--line);
+      }
+      .profile-copy {
+        margin: 0;
+        line-height: 1.8;
+        color: var(--muted);
+      }
+
+      .timeline { display: grid; gap: 18px; }
+      .entry {
+        padding: 18px 20px;
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--gold-500);
+        border-radius: 14px;
+        background: #fbfcfe;
+      }
+      .entry-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: baseline;
+        flex-wrap: wrap;
+        margin-bottom: 6px;
+      }
+      .entry-header h3 {
+        margin: 0;
+        font-size: 1.08rem;
+        color: var(--navy-950);
+      }
+      .period {
+        color: #8b6a12;
+        background: #fbf3d9;
+        border: 1px solid #eed68f;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .company {
+        margin: 0 0 12px;
+        color: var(--muted);
+        font-size: 0.94rem;
+      }
+      .bullet-list { display: grid; gap: 8px; }
+      .bullet-list li {
+        position: relative;
+        padding-left: 18px;
+        line-height: 1.6;
+        color: #3d4c63;
+      }
+      .bullet-list li::before {
+        content: "›";
+        position: absolute;
+        left: 0;
+        color: var(--gold-500);
+        font-weight: 800;
+      }
+      .stack {
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+      .card-list { display: grid; gap: 12px; }
+      .side-card {
+        background: var(--white);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 14px 16px;
+      }
+      .side-card strong, .side-list strong { display: block; color: var(--navy-950); margin-bottom: 4px; }
+      .side-card span, .side-list li { color: var(--muted); line-height: 1.5; }
+      .side-list { display: grid; gap: 10px; }
+      .pill-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .pill-group li {
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid #d2dae6;
+        color: #425268;
+        background: #fff;
+        font-size: 0.85rem;
+      }
+      footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 18px 42px 24px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.92rem;
+        background: var(--white);
+      }
+
+      @page {
+        size: A4;
+        margin: 12mm;
+      }
+
+      @media print {
+        html, body {
+          background: var(--white);
+          padding: 0;
+        }
+        .page {
+          width: 100%;
+          border-radius: 0;
+          box-shadow: none;
+        }
+        a { color: inherit; text-decoration: none; }
+      }
+
+      @media (max-width: 820px) {
+        .hero,
+        .content,
+        .contact-list {
+          grid-template-columns: 1fr;
+        }
+        .hero-main,
+        main,
+        aside,
+        .hero-side,
+        footer { padding: 28px; }
+        .hero-main,
+        main { border-right: 0; }
+      }
+    </style>
   </head>
   <body>
-    <header class="hero">
-      <div>
-        <p class="eyebrow">Smart wardrobe planner</p>
-        <h1>Build outfits from the clothes you already own.</h1>
-        <p class="hero-copy">
-          Upload dresses, shoes, bags, and accessories, describe the kind of day you want,
-          and get a tailored outfit suggestion from your own wardrobe.
-        </p>
+    <div class="page">
+      <header class="hero">
+        <section class="hero-main" aria-labelledby="resume-name">
+          <p class="eyebrow">Technical Product Owner</p>
+          <h1 id="resume-name">Bhargav <span class="accent">Tsapparapu</span></h1>
+          <p class="summary-lead">
+            Full-stack TPO with deep expertise in Angular and Java, bridging product vision,
+            sprint delivery, and engineering execution for enterprise-scale applications.
+          </p>
+          <ul class="contact-list" aria-label="Contact details">
+            <li><strong>Email:</strong> bhargavt17@gmail.com</li>
+            <li><strong>Phone:</strong> +91 9666366681</li>
+            <li><strong>Location:</strong> Hyderabad, India</li>
+            <li><strong>LinkedIn:</strong> bhargav-tsapparapu</li>
+          </ul>
+        </section>
+        <section class="hero-side" aria-label="Highlights">
+          <div class="metric">
+            <strong>7+</strong>
+            <span>Years of experience</span>
+          </div>
+          <div>
+            <p class="eyebrow">Core stack</p>
+            <ul class="tag-list">
+              <li>Angular</li>
+              <li>Java</li>
+              <li>Spring Boot</li>
+              <li>AWS</li>
+              <li>Azure</li>
+              <li>Docker</li>
+            </ul>
+          </div>
+          <div class="availability">Open to TPO roles · Hyderabad / Remote / Bengaluru</div>
+        </section>
+      </header>
+
+      <div class="content">
+        <main>
+          <section aria-labelledby="profile-title">
+            <div class="section-heading">
+              <h2 id="profile-title">Profile</h2>
+            </div>
+            <p class="profile-copy">
+              Technical Product Owner with 7+ years of end-to-end experience spanning product
+              strategy, agile delivery, and hands-on full-stack engineering. Specialized in
+              Angular, Java, and Spring Boot, with AWS Certified Developer and AWS Solutions
+              Architect credentials. Led AI-integrated product builds using GPT-4 and Vertex AI,
+              while owning product roadmaps, maintaining sprint health, and translating complex
+              business requirements into shipped features.
+            </p>
+          </section>
+
+          <section aria-labelledby="experience-title">
+            <div class="section-heading">
+              <h2 id="experience-title">Experience</h2>
+            </div>
+            <ol class="timeline">
+              <li class="entry">
+                <div class="entry-header">
+                  <h3>Technical Product Owner &amp; Team Lead</h3>
+                  <span class="period">Dec 2021 – Present</span>
+                </div>
+                <p class="company">HashedIN by Deloitte · Product-led</p>
+                <ul class="bullet-list">
+                  <li>Owned the product roadmap and sprint delivery for a Fortune-500 US retailer tax platform, coordinating release planning across 8+ engineers.</li>
+                  <li>Defined backlog structure with user stories, epics, and acceptance criteria aligned to business goals and technical feasibility.</li>
+                  <li>Spearheaded LLM-powered features using GPT-4 and Vertex AI in the media domain with measurable user-outcome goals.</li>
+                  <li>Architected a micro-frontend platform with JSON-driven forms and Azure SSO for modular enterprise delivery.</li>
+                  <li>Led agile ceremonies, mentoring, and architecture reviews to improve predictable, on-time delivery.</li>
+                </ul>
+                <p class="stack">Angular · Spring Boot · Java · AWS · Azure · Docker · GPT-4 · Vertex AI · Azure SSO</p>
+              </li>
+              <li class="entry">
+                <div class="entry-header">
+                  <h3>Full Stack Developer — Associate</h3>
+                  <span class="period">Sep 2019 – Nov 2021</span>
+                </div>
+                <p class="company">Cognizant</p>
+                <ul class="bullet-list">
+                  <li>Developed Angular 12 UI modules integrated with Spring Boot REST APIs, Bootstrap, and UXC Angular libraries.</li>
+                  <li>Worked with business analysts and tech leads on UX design, achieving stakeholder approval on the first review cycle.</li>
+                  <li>Coordinated with governance teams for compliance review and formal screen approvals.</li>
+                </ul>
+                <p class="stack">Angular 12 · Spring Boot · Bootstrap · Java · REST APIs</p>
+              </li>
+              <li class="entry">
+                <div class="entry-header">
+                  <h3>Backend Developer</h3>
+                  <span class="period">May 2019 – Jul 2019</span>
+                </div>
+                <p class="company">Gamenous · Startup</p>
+                <ul class="bullet-list">
+                  <li>Built Node.js backend services, integrated third-party APIs, and supported real-time analytics dashboards for user behavior tracking.</li>
+                </ul>
+                <p class="stack">Node.js · REST APIs · Analytics</p>
+              </li>
+            </ol>
+          </section>
+
+          <section aria-labelledby="projects-title">
+            <div class="section-heading">
+              <h2 id="projects-title">Key Projects</h2>
+            </div>
+            <ol class="timeline">
+              <li class="entry">
+                <div class="entry-header">
+                  <h3>Tax Automation Platform — US Retail</h3>
+                  <span class="period">2021 – Present</span>
+                </div>
+                <ul class="bullet-list">
+                  <li>Sole TPO managing roadmap, backlog, and the end-to-end delivery cycle for a Fortune-500 retailer tax workflow platform.</li>
+                </ul>
+              </li>
+              <li class="entry">
+                <div class="entry-header">
+                  <h3>LLM Content Pipeline — Media Domain</h3>
+                  <span class="period">2023 – Present</span>
+                </div>
+                <ul class="bullet-list">
+                  <li>Led product strategy and engineering for a GPT-4 and Vertex AI powered content generation and recommendation system.</li>
+                </ul>
+              </li>
+              <li class="entry">
+                <div class="entry-header">
+                  <h3>Bank Onboarding Portal</h3>
+                  <span class="period">2020 – 2021</span>
+                </div>
+                <ul class="bullet-list">
+                  <li>Designed and built a multi-role onboarding platform using Angular and Spring Boot with role-based access controls.</li>
+                </ul>
+              </li>
+            </ol>
+          </section>
+        </main>
+
+        <aside>
+          <section aria-labelledby="certifications-title">
+            <div class="section-heading">
+              <h3 id="certifications-title">Certifications</h3>
+            </div>
+            <div class="card-list">
+              <article class="side-card">
+                <strong>AWS Certified Developer</strong>
+                <span>Associate · Amazon Web Services</span>
+              </article>
+              <article class="side-card">
+                <strong>AWS Solutions Architect</strong>
+                <span>Associate · Amazon Web Services</span>
+              </article>
+            </div>
+          </section>
+
+          <section aria-labelledby="skills-title">
+            <div class="section-heading">
+              <h3 id="skills-title">Skills</h3>
+            </div>
+            <div class="card-list">
+              <article class="side-card">
+                <strong>Product &amp; Agile</strong>
+                <ul class="pill-group">
+                  <li>Product Ownership</li><li>Roadmap Planning</li><li>Sprint Delivery</li><li>User Stories</li><li>Scrum / SAFe</li><li>Stakeholder Mgmt</li>
+                </ul>
+              </article>
+              <article class="side-card">
+                <strong>Frontend</strong>
+                <ul class="pill-group">
+                  <li>Angular</li><li>TypeScript</li><li>JavaScript</li><li>HTML5 / CSS3</li><li>Micro-frontend</li>
+                </ul>
+              </article>
+              <article class="side-card">
+                <strong>Backend &amp; Cloud</strong>
+                <ul class="pill-group">
+                  <li>Java</li><li>Spring Boot</li><li>REST APIs</li><li>AWS</li><li>Azure</li><li>Docker</li><li>Node.js</li>
+                </ul>
+              </article>
+              <article class="side-card">
+                <strong>AI &amp; Tools</strong>
+                <ul class="pill-group">
+                  <li>GPT-4 API</li><li>Vertex AI</li><li>NLP</li><li>Git</li><li>Jira</li><li>CI/CD</li>
+                </ul>
+              </article>
+            </div>
+          </section>
+
+          <section aria-labelledby="education-title">
+            <div class="section-heading">
+              <h3 id="education-title">Education</h3>
+            </div>
+            <ul class="side-list">
+              <li><strong>B.Tech — Computer Science</strong>KL University · 2015 – 2019</li>
+            </ul>
+          </section>
+
+          <section aria-labelledby="achievements-title">
+            <div class="section-heading">
+              <h3 id="achievements-title">Achievements</h3>
+            </div>
+            <ul class="side-list">
+              <li><strong>Excellence Award × 3</strong>HashedIN by Deloitte — 2022, 2023, 2024</li>
+              <li><strong>Co-Founder · ForschenAI</strong>AR apps for construction (2018)</li>
+              <li><strong>Microsoft Student Partner</strong>KL University, 2017 – 2020</li>
+              <li><strong>Published — Springer Journal</strong>Image Optimization Mechanism (2017)</li>
+              <li><strong>Chief Web Developer</strong>National Fest — Samyak, KL University (2018)</li>
+            </ul>
+          </section>
+
+          <section aria-labelledby="interests-title">
+            <div class="section-heading">
+              <h3 id="interests-title">Interests</h3>
+            </div>
+            <ul class="pill-group">
+              <li>Cricket</li><li>Food Blogging</li><li>Virtual Reality</li><li>Gaming</li>
+            </ul>
+          </section>
+        </aside>
       </div>
-      <div class="hero-card">
-        <h2>How it works</h2>
-        <ol>
-          <li>Add wardrobe pieces with photos and style details.</li>
-          <li>Tell the app about your day, mood, and weather.</li>
-          <li>Get a full outfit recommendation with matching pieces.</li>
-        </ol>
-      </div>
-    </header>
 
-    <main class="layout">
-      <section class="panel">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Step 1</p>
-            <h2>Add to your wardrobe</h2>
-          </div>
-          <button id="seed-demo" class="secondary-btn" type="button">Load demo closet</button>
-        </div>
-
-        <form id="item-form" class="item-form">
-          <label>
-            Item name
-            <input type="text" name="name" placeholder="Emerald satin dress" required />
-          </label>
-
-          <label>
-            Category
-            <select name="category" required>
-              <option value="dress">Dress</option>
-              <option value="top">Top</option>
-              <option value="bottom">Bottom</option>
-              <option value="shoes">Shoes</option>
-              <option value="accessory">Accessory</option>
-              <option value="outerwear">Outerwear</option>
-              <option value="bag">Bag</option>
-            </select>
-          </label>
-
-          <label>
-            Color family
-            <select name="color" required>
-              <option value="neutral">Neutral</option>
-              <option value="black">Black</option>
-              <option value="white">White</option>
-              <option value="red">Red</option>
-              <option value="pink">Pink</option>
-              <option value="orange">Orange</option>
-              <option value="yellow">Yellow</option>
-              <option value="green">Green</option>
-              <option value="blue">Blue</option>
-              <option value="purple">Purple</option>
-              <option value="metallic">Metallic</option>
-            </select>
-          </label>
-
-          <label>
-            Style vibe
-            <select name="style" required>
-              <option value="classic">Classic</option>
-              <option value="casual">Casual</option>
-              <option value="romantic">Romantic</option>
-              <option value="edgy">Edgy</option>
-              <option value="sporty">Sporty</option>
-              <option value="minimal">Minimal</option>
-              <option value="glam">Glam</option>
-            </select>
-          </label>
-
-          <label>
-            Formality
-            <input type="range" name="formality" min="1" max="5" value="3" />
-            <span class="hint">1 = relaxed, 5 = polished</span>
-          </label>
-
-          <label>
-            Warmth
-            <input type="range" name="warmth" min="1" max="5" value="3" />
-            <span class="hint">1 = breezy, 5 = cozy</span>
-          </label>
-
-          <label class="file-input">
-            Photo
-            <input type="file" name="image" accept="image/*" />
-          </label>
-
-          <label class="full-width">
-            Notes
-            <textarea name="notes" rows="3" placeholder="Perfect for dinner dates, gold jewelry, spring evenings..."></textarea>
-          </label>
-
-          <button class="primary-btn" type="submit">Add item</button>
-        </form>
-      </section>
-
-      <section class="panel">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Step 2</p>
-            <h2>Your wardrobe</h2>
-          </div>
-          <span id="item-count" class="badge">0 items</span>
-        </div>
-        <div id="wardrobe-grid" class="wardrobe-grid empty-state">
-          <p>Your wardrobe is empty. Add pieces or load the demo closet to get started.</p>
-        </div>
-      </section>
-
-      <section class="panel planner-panel">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Step 3</p>
-            <h2>Plan your day</h2>
-          </div>
-        </div>
-
-        <form id="planner-form" class="planner-form">
-          <label>
-            Occasion
-            <select name="occasion">
-              <option value="work">Work</option>
-              <option value="brunch">Brunch</option>
-              <option value="date">Date night</option>
-              <option value="party">Party</option>
-              <option value="travel">Travel</option>
-              <option value="errands">Errands</option>
-            </select>
-          </label>
-
-          <label>
-            Mood
-            <select name="mood">
-              <option value="confident">Confident</option>
-              <option value="playful">Playful</option>
-              <option value="relaxed">Relaxed</option>
-              <option value="bold">Bold</option>
-              <option value="romantic">Romantic</option>
-              <option value="focused">Focused</option>
-            </select>
-          </label>
-
-          <label>
-            Weather
-            <select name="weather">
-              <option value="sunny">Sunny</option>
-              <option value="mild">Mild</option>
-              <option value="rainy">Rainy</option>
-              <option value="cold">Cold</option>
-              <option value="hot">Hot</option>
-            </select>
-          </label>
-
-          <label>
-            Temperature feel
-            <input type="range" name="tempPreference" min="1" max="5" value="3" />
-            <span class="hint">1 = cooler outfit, 5 = warmer outfit</span>
-          </label>
-
-          <label class="full-width">
-            Extra context
-            <textarea name="details" rows="3" placeholder="Example: I want to look polished but still comfortable because I will walk a lot."></textarea>
-          </label>
-
-          <button class="primary-btn" type="submit">Recommend my outfit</button>
-        </form>
-
-        <div id="recommendation" class="recommendation empty-state">
-          <p>Add at least one clothing piece and one pair of shoes to get a recommendation.</p>
-        </div>
-      </section>
-    </main>
-
-    <template id="wardrobe-item-template">
-      <article class="item-card">
-        <div class="item-image"></div>
-        <div class="item-body">
-          <div class="item-topline">
-            <h3></h3>
-            <button class="icon-btn" type="button" aria-label="Remove item">×</button>
-          </div>
-          <p class="item-meta"></p>
-          <p class="item-notes"></p>
-        </div>
-      </article>
-    </template>
-
-    <script src="app.js"></script>
+      <footer>
+        <div>Bhargav Tsapparapu · Technical Product Owner Resume</div>
+        <div>Structured HTML optimized for PDF export</div>
+      </footer>
+    </div>
   </body>
 </html>
