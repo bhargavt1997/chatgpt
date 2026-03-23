@@ -1,0 +1,323 @@
+{
+  "items": [
+    {
+      "id": "shirt-001",
+      "name": "White Button-Up Shirt",
+      "category": "top",
+      "color": "white",
+      "style": "classic",
+      "formality": 4,
+      "warmth": 2,
+      "notes": "Versatile classic piece, works for both casual and formal",
+      "imageKey": "shirts/white-button-up.jpg"
+    },
+    {
+      "id": "shirt-002",
+      "name": "Navy Blue Casual Tee",
+      "category": "top",
+      "color": "blue",
+      "style": "casual",
+      "formality": 1,
+      "warmth": 1,
+      "notes": "Comfortable everyday t-shirt",
+      "imageKey": "shirts/navy-tee.jpg"
+    },
+    {
+      "id": "shirt-003",
+      "name": "Striped Summer Top",
+      "category": "top",
+      "color": "white",
+      "style": "casual",
+      "formality": 2,
+      "warmth": 1,
+      "notes": "Light and breathable for warm weather",
+      "imageKey": "shirts/striped-summer-top.jpg"
+    },
+    {
+      "id": "shirt-004",
+      "name": "Black Turtleneck",
+      "category": "top",
+      "color": "black",
+      "style": "classic",
+      "formality": 3,
+      "warmth": 4,
+      "notes": "Warm and elegant layering piece",
+      "imageKey": "shirts/black-turtleneck.jpg"
+    },
+    {
+      "id": "shirt-005",
+      "name": "Floral Blouse",
+      "category": "top",
+      "color": "pink",
+      "style": "romantic",
+      "formality": 2,
+      "warmth": 2,
+      "notes": "Pretty floral pattern perfect for brunch",
+      "imageKey": "shirts/floral-blouse.jpg"
+    },
+    {
+      "id": "shirt-006",
+      "name": "Wool Sweater",
+      "category": "top",
+      "color": "neutral",
+      "style": "minimal",
+      "formality": 2,
+      "warmth": 5,
+      "notes": "Warm and cozy for cold weather",
+      "imageKey": "shirts/wool-sweater.jpg"
+    },
+    {
+      "id": "bottom-001",
+      "name": "Black Skinny Jeans",
+      "category": "bottom",
+      "color": "black",
+      "style": "edgy",
+      "formality": 2,
+      "warmth": 3,
+      "notes": "Versatile classic jeans",
+      "imageKey": "bottoms/black-skinny-jeans.jpg"
+    },
+    {
+      "id": "bottom-002",
+      "name": "Light Denim Jeans",
+      "category": "bottom",
+      "color": "blue",
+      "style": "casual",
+      "formality": 1,
+      "warmth": 2,
+      "notes": "Comfortable and casual everyday wear",
+      "imageKey": "bottoms/light-denim-jeans.jpg"
+    },
+    {
+      "id": "bottom-003",
+      "name": "White Linen Pants",
+      "category": "bottom",
+      "color": "white",
+      "style": "minimal",
+      "formality": 3,
+      "warmth": 1,
+      "notes": "Perfect for warm weather and casual elegance",
+      "imageKey": "bottoms/white-linen-pants.jpg"
+    },
+    {
+      "id": "bottom-004",
+      "name": "Gray Trousers",
+      "category": "bottom",
+      "color": "neutral",
+      "style": "classic",
+      "formality": 5,
+      "warmth": 2,
+      "notes": "Professional work wear",
+      "imageKey": "bottoms/gray-trousers.jpg"
+    },
+    {
+      "id": "bottom-005",
+      "name": "Black Midi Skirt",
+      "category": "bottom",
+      "color": "black",
+      "style": "classic",
+      "formality": 4,
+      "warmth": 2,
+      "notes": "Elegant and versatile",
+      "imageKey": "bottoms/black-midi-skirt.jpg"
+    },
+    {
+      "id": "bottom-006",
+      "name": "Shorts Denim",
+      "category": "bottom",
+      "color": "blue",
+      "style": "casual",
+      "formality": 1,
+      "warmth": 1,
+      "notes": "Perfect for hot summer days",
+      "imageKey": "bottoms/denim-shorts.jpg"
+    },
+    {
+      "id": "shoes-001",
+      "name": "White Sneakers",
+      "category": "shoes",
+      "color": "white",
+      "style": "casual",
+      "formality": 1,
+      "warmth": 1,
+      "notes": "Comfortable and versatile",
+      "imageKey": "shoes/white-sneakers.jpg"
+    },
+    {
+      "id": "shoes-002",
+      "name": "Black Leather Loafers",
+      "category": "shoes",
+      "color": "black",
+      "style": "classic",
+      "formality": 4,
+      "warmth": 1,
+      "notes": "Professional and elegant",
+      "imageKey": "shoes/black-loafers.jpg"
+    },
+    {
+      "id": "shoes-003",
+      "name": "Strappy Heels",
+      "category": "shoes",
+      "color": "black",
+      "style": "glam",
+      "formality": 5,
+      "warmth": 1,
+      "notes": "Perfect for parties and formal events",
+      "imageKey": "shoes/strappy-heels.jpg"
+    },
+    {
+      "id": "shoes-004",
+      "name": "Brown Ankle Boots",
+      "category": "shoes",
+      "color": "neutral",
+      "style": "edgy",
+      "formality": 2,
+      "warmth": 4,
+      "notes": "Warm and stylish boots for fall/winter",
+      "imageKey": "shoes/brown-ankle-boots.jpg"
+    },
+    {
+      "id": "shoes-005",
+      "name": "Flip Flops",
+      "category": "shoes",
+      "color": "neutral",
+      "style": "casual",
+      "formality": 0,
+      "warmth": 0,
+      "notes": "Summer casual footwear",
+      "imageKey": "shoes/flip-flops.jpg"
+    },
+    {
+      "id": "shoes-006",
+      "name": "Running Shoes",
+      "category": "shoes",
+      "color": "blue",
+      "style": "sporty",
+      "formality": 0,
+      "warmth": 1,
+      "notes": "Comfortable for sports and training",
+      "imageKey": "shoes/running-shoes.jpg"
+    },
+    {
+      "id": "accessory-001",
+      "name": "Black Leather Belt",
+      "category": "accessory",
+      "color": "black",
+      "style": "classic",
+      "formality": 3,
+      "warmth": 0,
+      "notes": "Essential accessory for any outfit",
+      "imageKey": "accessories/black-belt.jpg"
+    },
+    {
+      "id": "accessory-002",
+      "name": "Gold Necklace",
+      "category": "accessory",
+      "color": "metallic",
+      "style": "glam",
+      "formality": 4,
+      "warmth": 0,
+      "notes": "Elegant statement piece",
+      "imageKey": "accessories/gold-necklace.jpg"
+    },
+    {
+      "id": "accessory-003",
+      "name": "Silk Scarf",
+      "category": "accessory",
+      "color": "pink",
+      "style": "romantic",
+      "formality": 3,
+      "warmth": 2,
+      "notes": "Versatile for warmth and style",
+      "imageKey": "accessories/silk-scarf.jpg"
+    },
+    {
+      "id": "accessory-004",
+      "name": "Aviator Sunglasses",
+      "category": "accessory",
+      "color": "metallic",
+      "style": "edgy",
+      "formality": 1,
+      "warmth": 0,
+      "notes": "Classic cool-factor accessory",
+      "imageKey": "accessories/aviator-sunglasses.jpg"
+    },
+    {
+      "id": "accessory-005",
+      "name": "Wool Beanie",
+      "category": "accessory",
+      "color": "black",
+      "style": "casual",
+      "formality": 0,
+      "warmth": 4,
+      "notes": "Essential winter warm accessory",
+      "imageKey": "accessories/wool-beanie.jpg"
+    },
+    {
+      "id": "accessory-006",
+      "name": "Watch",
+      "category": "accessory",
+      "color": "metallic",
+      "style": "classic",
+      "formality": 4,
+      "warmth": 0,
+      "notes": "Timeless accessory",
+      "imageKey": "accessories/watch.jpg"
+    },
+    {
+      "id": "outerwear-001",
+      "name": "Denim Jacket",
+      "category": "outerwear",
+      "color": "blue",
+      "style": "casual",
+      "formality": 1,
+      "warmth": 3,
+      "notes": "Perfect casual layering piece",
+      "imageKey": "outerwear/denim-jacket.jpg"
+    },
+    {
+      "id": "outerwear-002",
+      "name": "Blazer",
+      "category": "outerwear",
+      "color": "neutral",
+      "style": "classic",
+      "formality": 5,
+      "warmth": 2,
+      "notes": "Professional office wear",
+      "imageKey": "outerwear/blazer.jpg"
+    },
+    {
+      "id": "outerwear-003",
+      "name": "Winter Coat",
+      "category": "outerwear",
+      "color": "black",
+      "style": "minimal",
+      "formality": 2,
+      "warmth": 5,
+      "notes": "Essential winter wear",
+      "imageKey": "outerwear/winter-coat.jpg"
+    },
+    {
+      "id": "bag-001",
+      "name": "Black Leather Handbag",
+      "category": "bag",
+      "color": "black",
+      "style": "classic",
+      "formality": 4,
+      "warmth": 0,
+      "notes": "Versatile everyday bag",
+      "imageKey": "bags/black-handbag.jpg"
+    },
+    {
+      "id": "bag-002",
+      "name": "Canvas Backpack",
+      "category": "bag",
+      "color": "neutral",
+      "style": "casual",
+      "formality": 1,
+      "warmth": 0,
+      "notes": "Comfortable daily backpack",
+      "imageKey": "bags/canvas-backpack.jpg"
+    }
+  ]
+}

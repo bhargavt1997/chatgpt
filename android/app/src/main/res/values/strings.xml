@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">hasi\'s wardrobe picker</string>
+    <string name="title_activity_main">hasi\'s wardrobe picker</string>
+    <string name="package_name">com.attireplanner.app</string>
+    <string name="custom_url_scheme">com.attireplanner.app</string>
+</resources>

@@ -4,8 +4,12 @@ const plannerForm = document.getElementById("planner-form");
 const wardrobeGrid = document.getElementById("wardrobe-grid");
 const recommendation = document.getElementById("recommendation");
 const itemCount = document.getElementById("item-count");
+const statCount = document.getElementById("stat-count");
+const statShoes = document.getElementById("stat-shoes");
+const statLayers = document.getElementById("stat-layers");
 const template = document.getElementById("wardrobe-item-template");
-const seedDemoButton = document.getElementById("seed-demo");
+const seedDemoButton = document.getElementById("seed-demo-hero");
+const clearWardrobeButton = document.getElementById("clear-wardrobe");
 
 const occasionProfiles = {
   work: { formality: 4, style: ["classic", "minimal"], categories: ["dress", "top", "bottom", "outerwear"] },
@@ -23,14 +27,6 @@ const moodStyles = {
   bold: ["edgy", "glam"],
   romantic: ["romantic", "classic"],
   focused: ["minimal", "classic"],
-};
-
-const weatherWarmth = {
-  sunny: 2,
-  mild: 3,
-  rainy: 4,
-  cold: 5,
-  hot: 1,
 };
 
 const demoItems = [
@@ -58,8 +54,6 @@ form.addEventListener("submit", async (event) => {
     color: formData.get("color"),
     style: formData.get("style"),
     formality: Number(formData.get("formality")),
-    warmth: Number(formData.get("warmth")),
-    notes: formData.get("notes").toString().trim(),
     image: "",
   };
 
@@ -84,6 +78,14 @@ seedDemoButton.addEventListener("click", () => {
   renderWardrobe();
 });
 
+clearWardrobeButton.addEventListener("click", () => {
+    if(confirm("Are you sure you want to clear your entire wardrobe?")) {
+        wardrobe = [];
+        persistWardrobe();
+        renderWardrobe();
+    }
+});
+
 function loadWardrobe() {
   try {
     return JSON.parse(localStorage.getItem(storageKey)) ?? [];
@@ -98,12 +100,15 @@ function persistWardrobe() {
 
 function renderWardrobe() {
   itemCount.textContent = `${wardrobe.length} item${wardrobe.length === 1 ? "" : "s"}`;
+  statCount.textContent = wardrobe.length;
+  statShoes.textContent = wardrobe.filter(i => i.category === 'shoes').length;
+  statLayers.textContent = wardrobe.filter(i => i.category === 'outerwear').length;
 
   if (wardrobe.length === 0) {
     wardrobeGrid.className = "wardrobe-grid empty-state";
-    wardrobeGrid.innerHTML = "<p>Your wardrobe is empty. Add pieces or load the demo closet to get started.</p>";
+    wardrobeGrid.innerHTML = "<p>Your collection is empty. Start adding pieces to see them here.</p>";
     recommendation.className = "recommendation empty-state";
-    recommendation.innerHTML = "<p>Add at least one clothing piece and one pair of shoes to get a recommendation.</p>";
+    recommendation.innerHTML = "<p>Ready to plan your next look?</p>";
     return;
   }
 
@@ -116,12 +121,10 @@ function renderWardrobe() {
     const image = fragment.querySelector(".item-image");
     const title = fragment.querySelector("h3");
     const meta = fragment.querySelector(".item-meta");
-    const notes = fragment.querySelector(".item-notes");
     const removeButton = fragment.querySelector(".icon-btn");
 
     title.textContent = item.name;
-    meta.textContent = `${capitalize(item.category)} • ${capitalize(item.style)} • ${capitalize(item.color)}`;
-    notes.textContent = item.notes || `Formality ${item.formality}/5 • Warmth ${item.warmth}/5`;
+    meta.textContent = `${capitalize(item.category)} • ${capitalize(item.color)}`;
     if (item.image) {
       image.style.backgroundImage = `url(${item.image})`;
     }
@@ -148,103 +151,46 @@ function renderRecommendation(formData) {
 
   const occasion = formData.get("occasion").toString();
   const mood = formData.get("mood").toString();
-  const weather = formData.get("weather").toString();
-  const tempPreference = Number(formData.get("tempPreference"));
-  const details = formData.get("details").toString().trim();
 
   const profile = occasionProfiles[occasion];
-  const desiredWarmth = Math.round((weatherWarmth[weather] + tempPreference) / 2);
   const desiredStyles = new Set([...(profile.style || []), ...(moodStyles[mood] || [])]);
 
   const picks = {
-    main: pickBest(wardrobe.filter((item) => ["dress", "top"].includes(item.category)), { profile, desiredWarmth, desiredStyles }),
-    bottom: pickBest(wardrobe.filter((item) => item.category === "bottom"), { profile, desiredWarmth, desiredStyles }),
-    layer: pickBest(wardrobe.filter((item) => item.category === "outerwear"), { profile, desiredWarmth, desiredStyles }, true),
-    shoes: pickBest(shoes, { profile, desiredWarmth, desiredStyles }),
-    accessory: pickBest(wardrobe.filter((item) => ["accessory", "bag"].includes(item.category)), { profile, desiredWarmth, desiredStyles }, true),
+    main: pickBest(wardrobe.filter((item) => ["dress", "top"].includes(item.category)), { profile, desiredStyles }),
+    bottom: pickBest(wardrobe.filter((item) => item.category === "bottom"), { profile, desiredStyles }),
+    shoes: pickBest(shoes, { profile, desiredStyles }),
   };
 
   const useBottom = picks.main?.category !== "dress" && picks.bottom;
-  const selected = [picks.main, useBottom ? picks.bottom : null, picks.layer, picks.shoes, picks.accessory].filter(Boolean);
-  const palette = selected.map((item) => item.color).filter(Boolean);
+  const selected = [picks.main, useBottom ? picks.bottom : null, picks.shoes].filter(Boolean);
 
   recommendation.className = "recommendation";
   recommendation.innerHTML = `
-    <div class="recommendation-card">
-      <div class="recommendation-header">
-        <div>
-          <p class="eyebrow">Recommended outfit</p>
-          <h3>${headlineForPlan(occasion, mood)}</h3>
-        </div>
-        <span class="badge">Warmth target ${desiredWarmth}/5</span>
-      </div>
-      <p class="recommendation-copy">
-        This outfit leans ${Array.from(desiredStyles).slice(0, 2).join(" and ")} with a ${describeFormality(profile.formality)} finish. ${details ? `Extra note considered: “${escapeHtml(details)}”.` : ""}
-      </p>
-      <div class="recommendation-grid">
-        ${selected
-          .map(
-            (item) => `
-              <article class="pick-card">
-                <strong>${capitalize(item.category)}</strong>
-                <h4>${escapeHtml(item.name)}</h4>
-                <p>${capitalize(item.style)} • ${capitalize(item.color)} • Formality ${item.formality}/5</p>
-              </article>
-            `,
-          )
-          .join("")}
-      </div>
-      <div class="recommendation-list">
-        <h4>Why this works</h4>
-        <ul>
-          <li>The pieces stay close to your target formality for a ${occasion} day.</li>
-          <li>The palette of ${palette.map(capitalize).join(", ")} keeps the outfit coordinated.</li>
-          <li>${weatherAdvice(weather, picks)}</li>
-        </ul>
+    <div class="recommendation-card" style="background: #F1F2F6; padding: 24px; border-radius: 20px;">
+      <h3 style="margin-top:0">Your ${capitalize(mood)} ${capitalize(occasion)} Look</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 16px;">
+        ${selected.map(item => `
+          <div style="background: white; padding: 16px; border-radius: 12px; border: 1px solid #DFE6E9;">
+            <div style="font-size: 11px; font-weight: 700; color: #E17055; text-transform: uppercase;">${item.category}</div>
+            <div style="font-weight: 700; font-size: 15px;">${item.name}</div>
+            <div style="font-size: 12px; color: #636E72;">${capitalize(item.style)} • ${capitalize(item.color)}</div>
+          </div>
+        `).join('')}
       </div>
     </div>
   `;
 }
 
-function pickBest(items, context, optional = false) {
-  if (items.length === 0) {
-    return optional ? null : null;
-  }
-
+function pickBest(items, context) {
+  if (items.length === 0) return null;
   const ranked = [...items].sort((a, b) => scoreItem(b, context) - scoreItem(a, context));
-  return ranked[0] ?? null;
+  return ranked[0];
 }
 
 function scoreItem(item, context) {
   const styleBonus = context.desiredStyles.has(item.style) ? 2 : 0;
   const formalityScore = 5 - Math.abs(item.formality - context.profile.formality);
-  const warmthScore = 5 - Math.abs(item.warmth - context.desiredWarmth);
-  const categoryBonus = context.profile.categories.includes(item.category) ? 1 : 0;
-  return styleBonus + formalityScore + warmthScore + categoryBonus;
-}
-
-function headlineForPlan(occasion, mood) {
-  return `${capitalize(mood)} ${capitalize(occasion)} look`;
-}
-
-function describeFormality(value) {
-  if (value >= 5) return "dressy";
-  if (value >= 4) return "polished";
-  if (value >= 3) return "balanced";
-  return "relaxed";
-}
-
-function weatherAdvice(weather, picks) {
-  if (weather === "rainy") {
-    return picks.layer ? "Your added layer gives the outfit more protection for rainy moments." : "Consider adding a lightweight layer if rain starts.";
-  }
-  if (weather === "cold") {
-    return picks.layer ? "The recommendation includes a warmer piece to keep the look practical." : "You may want to add a coat for extra warmth.";
-  }
-  if (weather === "hot") {
-    return "Lighter pieces are prioritized so the outfit still feels breathable.";
-  }
-  return "The mix balances comfort, style, and the pace of your day.";
+  return styleBonus + formalityScore;
 }
 
 function readFileAsDataURL(file) {
@@ -258,13 +204,4 @@ function readFileAsDataURL(file) {
 
 function capitalize(value) {
   return value ? value.charAt(0).toUpperCase() + value.slice(1) : "";
-}
-
-function escapeHtml(value) {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
 }

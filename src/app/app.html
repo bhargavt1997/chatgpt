@@ -1,0 +1,319 @@
+<main class="shell">
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Angular 21 wardrobe planner</p>
+      <h1>Style the closet you already own into sharper daily outfits.</h1>
+      <p class="lede">
+        Build a visual wardrobe, tune the mood of the day, and get a full outfit recommendation from your own pieces.
+      </p>
+
+      <div class="hero-actions">
+        <button class="primary-btn" type="button" (click)="loadDemoCloset()">Load demo closet</button>
+        <button class="ghost-btn" type="button" (click)="clearCloset()">Clear wardrobe</button>
+      </div>
+
+      <div class="hero-stats">
+        <article class="stat-card">
+          <span>Closet size</span>
+          <strong>{{ heroStats().total }}</strong>
+        </article>
+        <article class="stat-card">
+          <span>Shoe options</span>
+          <strong>{{ heroStats().shoes }}</strong>
+        </article>
+        <article class="stat-card">
+          <span>Layers ready</span>
+          <strong>{{ heroStats().layers }}</strong>
+        </article>
+      </div>
+    </div>
+
+    <aside class="hero-panel">
+      <p class="eyebrow">Planner rhythm</p>
+      <div class="panel-stack">
+        <article>
+          <span>1</span>
+          <div>
+            <h2>Add your wardrobe pieces</h2>
+            <p>Capture color, vibe, and warmth so the planner understands each item.</p>
+          </div>
+        </article>
+        <article>
+          <span>2</span>
+          <div>
+            <h2>Describe the day</h2>
+            <p>Set the occasion, mood, weather, and comfort level you want to hit.</p>
+          </div>
+        </article>
+        <article>
+          <span>3</span>
+          <div>
+            <h2>Get a complete look</h2>
+            <p>See a coordinated outfit with reasoning and palette guidance.</p>
+          </div>
+        </article>
+      </div>
+    </aside>
+  </section>
+
+  <section class="dashboard">
+    <article class="panel form-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Step 1</p>
+          <h2>Add to wardrobe</h2>
+        </div>
+      </div>
+
+      <form class="app-form" [formGroup]="itemForm" (ngSubmit)="addItem()">
+        <label>
+          <span>Item name</span>
+          <input type="text" formControlName="name" placeholder="Emerald satin dress" />
+        </label>
+
+        <label>
+          <span>Category</span>
+          <select formControlName="category">
+            @for (category of categoryOptions; track category) {
+              <option [value]="category">{{ categoryLabel(category) }}</option>
+            }
+          </select>
+        </label>
+
+        <label>
+          <span>Color family</span>
+          <select formControlName="color">
+            @for (color of colorOptions; track color) {
+              <option [value]="color">{{ categoryLabel(color) }}</option>
+            }
+          </select>
+        </label>
+
+        <label>
+          <span>Style vibe</span>
+          <select formControlName="style">
+            @for (style of styleOptions; track style) {
+              <option [value]="style">{{ categoryLabel(style) }}</option>
+            }
+          </select>
+        </label>
+
+        <label>
+          <span>Formality</span>
+          <input type="range" formControlName="formality" min="1" max="5" />
+          <small>{{ controlValue(itemForm.controls.formality) }}/5 polished</small>
+        </label>
+
+        <label>
+          <span>Warmth</span>
+          <input type="range" formControlName="warmth" min="1" max="5" />
+          <small>{{ controlValue(itemForm.controls.warmth) }}/5 cozy</small>
+        </label>
+
+        <label class="full-width upload-field">
+          <span>Photo</span>
+          <input type="file" accept="image/*" (change)="onImageSelected($event)" />
+          <small>{{ selectedImageName() }}</small>
+        </label>
+
+        <label class="full-width">
+          <span>Notes</span>
+          <textarea
+            formControlName="notes"
+            rows="3"
+            placeholder="Perfect for spring dinners, gold jewelry, and polished daytime plans."
+          ></textarea>
+        </label>
+
+        <button class="primary-btn full-width" type="submit">Add wardrobe piece</button>
+      </form>
+    </article>
+
+    <article class="panel collection-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Step 2</p>
+          <h2>Your wardrobe</h2>
+        </div>
+        <span class="pill">{{ wardrobeService.items().length }} items</span>
+      </div>
+
+      @if (wardrobeService.items().length) {
+        <div class="wardrobe-grid">
+          @for (item of wardrobeService.items(); track trackItem($index, item)) {
+            <article class="wardrobe-card">
+              <div
+                class="image-frame"
+                [style.background-image]="imageFor(item) ? 'url(' + imageFor(item) + ')' : ''"
+                [class.has-image]="!!imageFor(item)"
+              >
+                @if (!imageFor(item)) {
+                  <span [style.background]="colorSwatch(item.color)"></span>
+                }
+              </div>
+
+              <div class="wardrobe-card-body">
+                <div class="wardrobe-card-top">
+                  <div>
+                    <h3>{{ item.name }}</h3>
+                    <p>{{ categoryLabel(item.category) }} · {{ categoryLabel(item.style) }}</p>
+                  </div>
+                  <button class="icon-btn" type="button" (click)="removeItem(item.id)">×</button>
+                </div>
+
+                <div class="meta-row">
+                  <span>{{ categoryLabel(item.color) }}</span>
+                  <span>Formality {{ item.formality }}/5</span>
+                  <span>Warmth {{ item.warmth }}/5</span>
+                </div>
+
+                <p class="notes">{{ item.notes || 'No notes yet, but this piece is available for the next outfit plan.' }}</p>
+              </div>
+            </article>
+          }
+        </div>
+      } @else {
+        <div class="empty-card">
+          <h3>Your wardrobe is empty</h3>
+          <p>Add pieces manually or load the demo closet to preview the planner flow.</p>
+        </div>
+      }
+    </article>
+
+    <article class="panel planner-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Step 3</p>
+          <h2>Plan the day</h2>
+        </div>
+      </div>
+
+      <form class="app-form planner-form" [formGroup]="plannerForm" (ngSubmit)="buildRecommendation()">
+        <label>
+          <span>Occasion</span>
+          <select formControlName="occasion">
+            @for (occasion of occasionOptions; track occasion) {
+              <option [value]="occasion">{{ categoryLabel(occasion) }}</option>
+            }
+          </select>
+        </label>
+
+        <label>
+          <span>Mood</span>
+          <select formControlName="mood">
+            @for (mood of moodOptions; track mood) {
+              <option [value]="mood">{{ categoryLabel(mood) }}</option>
+            }
+          </select>
+        </label>
+
+        <label>
+          <span>Weather</span>
+          <select formControlName="weather">
+            @for (weather of weatherOptions; track weather) {
+              <option [value]="weather">{{ categoryLabel(weather) }}</option>
+            }
+          </select>
+        </label>
+
+        <label>
+          <span>Temperature feel</span>
+          <input type="range" formControlName="tempPreference" min="1" max="5" />
+          <small>{{ controlValue(plannerForm.controls.tempPreference) }}/5 warmth preference</small>
+        </label>
+
+        <label class="full-width">
+          <span>OpenAI API key</span>
+          <input type="password" formControlName="apiKey" placeholder="sk-..." autocomplete="off" />
+          <small>Key is used client-side to call GPT for the recommendation.</small>
+        </label>
+
+        <label class="full-width">
+          <span>Extra context</span>
+          <textarea
+            formControlName="details"
+            rows="3"
+            placeholder="I want to look polished, feel comfortable, and still be ready for a lot of walking."
+          ></textarea>
+        </label>
+
+        <button class="primary-btn full-width" type="submit">Recommend my outfit</button>
+      </form>
+
+      @if (isLoading()) {
+        <div class="empty-card recommendation-empty">
+          <h3>Getting your look...</h3>
+          <p>Calling GPT to tailor an outfit to your wardrobe.</p>
+        </div>
+      } @else if (recommendationError()) {
+        <div class="empty-card recommendation-empty error">
+          <h3>Couldn’t build the look</h3>
+          <p>{{ recommendationError() }}</p>
+        </div>
+      } @else if (recommendation(); as look) {
+        <section class="recommendation-card">
+          <div class="recommendation-head">
+            <div>
+              <p class="eyebrow">Recommended look</p>
+              <h3>{{ look.headline }}</h3>
+              <p>{{ look.summary }}</p>
+            </div>
+            <span class="pill accent">Warmth target {{ look.desiredWarmth }}/5</span>
+          </div>
+
+          @if (imageError()) {
+            <div class="empty-card recommendation-empty error">
+              <h3>Image unavailable</h3>
+              <p>{{ imageError() }}</p>
+            </div>
+          } @else if (imageData()) {
+            <div class="outfit-image">
+              <img [src]="imageData()" alt="Generated outfit visual" />
+            </div>
+          }
+
+          <div class="recommendation-grid">
+            @for (item of look.selectedItems; track trackItem($index, item)) {
+              <article class="pick-card">
+                <strong>{{ categoryLabel(item.category) }}</strong>
+                <h4>{{ item.name }}</h4>
+                <p>{{ categoryLabel(item.style) }} · {{ categoryLabel(item.color) }}</p>
+              </article>
+            }
+          </div>
+
+          <div class="palette-row">
+            @for (color of look.palette; track color) {
+              <span class="palette-chip">
+                <i [style.background]="colorSwatch(color)"></i>
+                {{ categoryLabel(color) }}
+              </span>
+            }
+          </div>
+
+          <ul class="reason-list">
+            @for (reason of look.reasons; track reason) {
+              <li>{{ reason }}</li>
+            }
+          </ul>
+
+          @if (visionNotes().length) {
+            <div class="vision-notes">
+              <p class="eyebrow">Vision checks</p>
+              <ul>
+                @for (note of visionNotes(); track note) {
+                  <li>{{ note }}</li>
+                }
+              </ul>
+            </div>
+          }
+        </section>
+      } @else {
+        <div class="empty-card recommendation-empty">
+          <h3>Recommendation waiting</h3>
+          <p>Add at least one clothing piece and one pair of shoes, then run the planner.</p>
+        </div>
+      }
+    </article>
+  </section>
+</main>

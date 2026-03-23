@@ -1,22 +1,31 @@
 # Attire Planner
 
-A lightweight wardrobe planning app that helps you upload the dresses, shoes, bags, and accessories you already own, then recommends an outfit based on the kind of day you want.
+An Angular 21 wardrobe planning app with a modern editorial UI. Add the clothes you already own, store them in the browser, and generate GPT-powered outfit recommendations based on occasion, mood, weather, and comfort.
 
 ## Features
 
-- Add wardrobe items with category, color, style, formality, warmth, notes, and an optional image.
-- Save your wardrobe in the browser with `localStorage`.
-- Generate outfit recommendations using occasion, mood, weather, and comfort preferences.
-- Load a demo wardrobe to try the experience quickly.
+- Built with standalone Angular 21 components and reactive forms
+- Save wardrobe items in `localStorage` (images are stored in `sessionStorage`)
+- Upload photos for wardrobe pieces
+- Load a demo closet to explore the planner quickly
+- Generate a coordinated outfit suggestion via OpenAI Chat Completions with palette and styling notes
 
 ## Run locally
 
-Because this is a static app, you can open `index.html` directly in your browser or serve it with any static file server.
-
-Example with Python:
+Install dependencies if needed:
 
 ```bash
-python3 -m http.server 8000
+npm install
 ```
 
-Then visit <http://localhost:8000>.
+Start the Angular dev server:
+
+```bash
+npm start
+```
+
+Then open <http://localhost:4200>.
+
+## Getting GPT recommendations
+
+Enter an OpenAI API key in the “OpenAI API key” field (kept in-memory on the client) and click “Recommend my outfit.” The app sends your wardrobe summary and planner context to the `gpt-4o-mini` chat completions endpoint and returns a JSON-formatted recommendation. Without a key, the recommendation step will not run.
